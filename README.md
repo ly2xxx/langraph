@@ -8,7 +8,7 @@ python -m venv .venv
 ```
 Install dependencies
 ```bash
-pip install -U langgraph langchain langchain_openai langchain_experimental
+pip install -U langgraph langchain langchain_openai langchain_experimental bs4 matplotlib
 ```
 
 ![alt text](image.png)
