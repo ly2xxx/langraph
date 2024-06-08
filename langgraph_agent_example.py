@@ -6,7 +6,8 @@ from langchain.agents import create_react_agent, tool
 from langchain.schema import AgentFinish
 from langchain.tools import tool
 from langchain_community.embeddings import BedrockEmbeddings
-from langchain_community.llms import Bedrock
+# from langchain_community.llms import Bedrock
+from langchain_aws import BedrockLLM
 from langchain_community.vectorstores import FAISS
 from langchain_core.agents import AgentFinish
 from langchain_core.runnables import RunnablePassthrough
@@ -23,7 +24,8 @@ bedrock_runtime = boto3.client(
 )
 
 # Define Bedrock LLM
-LLM = Bedrock(client=bedrock_runtime, model_id="anthropic.claude-v2")
+# LLM = Bedrock(client=bedrock_runtime, model_id="anthropic.claude-v2")
+LLM = BedrockLLM(client=bedrock_runtime, model_id="anthropic.claude-v2")
 LLM.model_kwargs = {"temperature": 0.7, "max_tokens_to_sample": 4096}
 
 @tool

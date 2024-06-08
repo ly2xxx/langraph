@@ -10,3 +10,4 @@ langgraph
 httpx
 langchainhub
 python-dotenv
+langchain_aws
