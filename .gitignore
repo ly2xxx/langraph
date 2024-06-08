@@ -145,7 +145,7 @@ wandb/
 .tool-versions
 /.ruff_cache/
 
-*.pkl
+# *.pkl
 *.bin
 
 # integration test artifacts

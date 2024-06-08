@@ -111,6 +111,30 @@ def execute_tools(data):
     data['intermediate_steps'].append((agent_action, observation))
     return data
 
+# def execute_tools(data):
+#     # Get the most recent agent_outcome - this is the key added in the `agent` above
+#     agent_action = data.pop('agent_outcome')
+    
+#     # Create a dictionary of tools
+#     tool_dict = {t.name: t for t in TOOLS}
+    
+#     # Check if the requested tool is in the dictionary
+#     if agent_action.tool in tool_dict:
+#         # If it is, get the tool object
+#         tool_to_use = tool_dict[agent_action.tool]
+        
+#         # Call that tool on the input
+#         observation = tool_to_use.invoke(agent_action.tool_input)
+        
+#         # We now add in the action and the observation to the `intermediate_steps` list
+#         # This is the list of all previous actions taken and their output
+#         data['intermediate_steps'].append((agent_action, observation))
+#     else:
+#         # If the requested tool is not found, raise a more informative error
+#         raise ValueError(f"Tool '{agent_action.tool}' not found in the available tools.")
+    
+#     return data
+
 
 # Define logic that will be used to determine which conditional edge to go down
 def should_continue(data):
