@@ -12,6 +12,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.agents import AgentFinish
 from langchain_core.runnables import RunnablePassthrough
 from langgraph.graph import END, Graph
+from IPython.display import Image, display
 import dotenv
 
 #load environment variables from .env file
@@ -47,6 +48,7 @@ TOOLS = [well_arch_tool]
 
 def construct_agent():
     # Get the prompt to use - you can modify this!
+    # https://smith.langchain.com/hub/hwchase17
     prompt = hub.pull("hwchase17/react")
     # Adding a custom header
     prompt.template = """You are an expert AWS Certified Solutions Architect. Your role is to help customers understand best practices on building on AWS. You will always reference the AWS Well-Architected Framework when customers ask questions on building on AWS. """ + prompt.template 
@@ -153,6 +155,7 @@ def main():
     agent_runnable = construct_agent()
     # Create LangGraph Workflow with Agent as Entrypoint
     chain = create_graph_workflow(agent_runnable)
+    display(Image(chain.get_graph(xray=True).draw_mermaid_png()))
     # Invoke the LangGraph Workflow with input and intermediate steps
     # result = chain.invoke({"input": "What does the AWS Well-Architected Framework say about how to create secure VPCs?", "intermediate_steps": []})
     result = chain.invoke({"input": "How to call Langchain ConversationalRetrievalChain using AWS bedrock titan-embed-text-v1 embedded content stored in FAISS vector database?", "intermediate_steps": []})
