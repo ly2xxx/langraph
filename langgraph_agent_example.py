@@ -158,7 +158,9 @@ def main():
     display(Image(chain.get_graph(xray=True).draw_mermaid_png()))
     # Invoke the LangGraph Workflow with input and intermediate steps
     # result = chain.invoke({"input": "What does the AWS Well-Architected Framework say about how to create secure VPCs?", "intermediate_steps": []})
-    result = chain.invoke({"input": "How to call Langchain ConversationalRetrievalChain using AWS bedrock titan-embed-text-v1 embedded content stored in FAISS vector database?", "intermediate_steps": []})
+    
+    result = chain.invoke({"input": "How to call Langchain ConversationalRetrievalChain using AWS bedrock titan-embed-text-v1 embedded content?", "intermediate_steps": []})
+    # result = chain.invoke({"input": "How to call Langchain ConversationalRetrievalChain using AWS bedrock titan-embed-text-v1 embedded content stored in FAISS vector database?", "intermediate_steps": []})
     # Print the output of the LangGraph Workflow - this is the output of the Agent
     output = result['agent_outcome'].return_values["output"]
     print(output)
