@@ -28,7 +28,13 @@ def main():
     user_input = st.text_area("Enter your query about the AWS Well-Architected Framework:")
 
     # File picker
-    uploaded_file = st.file_uploader("Choose a file", type=["pdf", "txt", "docx"])
+    # uploaded_file = st.file_uploader("Choose a file", type=["pdf", "txt", "docx"])
+    uploaded_files = []
+    num_files = st.number_input("Number of files to upload", min_value=1, value=1, step=1)
+    for i in range(num_files):
+        file = st.file_uploader(f"Choose file {i+1}", type=["pdf", "txt", "docx"], key=f"file_{i}")
+        if file:
+            uploaded_files.append(file)
 
     if st.button("Submit"):
         # Invoke the LangGraph Workflow with user input and intermediate steps
