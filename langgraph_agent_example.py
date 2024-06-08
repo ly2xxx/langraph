@@ -43,8 +43,25 @@ def well_arch_tool(query: str) -> Dict[str, Any]:
 
     return resp_json
 
+@tool
+def embedder_tool(text: str) -> Dict[str, Any]:
+    """Embeds the given text using the Bedrock embeddings model"""
+    bedrock_runtime = boto3.client(
+        service_name="bedrock-runtime",
+        region_name="us-west-2",
+    )
+    embeddings = BedrockEmbeddings(
+        client=bedrock_runtime,
+        model_id="amazon.titan-embed-text-v1",
+    )
+    embedded_text = embeddings.embed_documents([text])
 
-TOOLS = [well_arch_tool]
+    resp_json = {"embedded_text": embedded_text}
+
+    return resp_json
+
+
+TOOLS = [well_arch_tool, embedder_tool]
 
 def construct_agent():
     # Get the prompt to use - you can modify this!

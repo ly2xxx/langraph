@@ -11,4 +11,6 @@ Install dependencies
 pip install -U langgraph langchain langchain_openai langchain_experimental langchain_community bs4 matplotlib python-dotenv
 ```
 
-![alt text](image.png)
+![Jupyter notebook](demos/jupyter.pngjupyter.png)
+
+![streamlit app](demos/streamlit.png)

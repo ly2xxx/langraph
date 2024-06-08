@@ -16,6 +16,21 @@
             // "env": {
             //     "PYTHONPATH": "D:/code/amazon-bedrock-custom-langchain-agent"
             // }
+        },
+        {
+            "name": "Python:Streamlit",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "streamlit",
+            "args": [
+                 "run",
+                 "app.py",
+                 "--server.port",
+                 "8505"
+            ]
+            // "program": "${file}",
+            // "console": "integratedTerminal",
+            // "justMyCode": true
         }
     ]
 }
