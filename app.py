@@ -1,6 +1,6 @@
 import streamlit as st
 from langgraph_agent_example import construct_agent, create_graph_workflow
-from langgraph_researcher_example import create_researcher_graph_workflow
+from langgraph_researcher_example import create_researcher_graph_workflow, enter_chain
 from io import BytesIO
 
 # We import the necessary functions from langgraph_agent_example.py: construct_agent and create_graph_workflow.
@@ -53,6 +53,14 @@ def main():
             # Print the output of the LangGraph Workflow - this is the output of the Agent
             output = result['agent_outcome'].return_values["output"]
             st.write(output)
+        elif chain_selection == "chain_researcher":
+            research_chain = enter_chain | chain_researcher
+            for s in research_chain.stream(
+                user_input, {"recursion_limit": 100}
+            ):
+                if "__end__" not in s:
+                    st.write(s)
+                    st.write("---")
         else:
             st.write("Under development")
 
