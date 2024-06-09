@@ -20,13 +20,18 @@ def main():
     chain_agent = create_graph_workflow(agent_runnable)
     chain_researcher = create_researcher_graph_workflow()
 
+    # Dropdown to select chain
+    chain_selection = st.selectbox("Select chain", ["chain_agent", "chain_researcher"])
+
     # Display the graph visualization
     # graph = chain.get_graph(xray=True)
     # mermaid_png = graph.draw_mermaid_png()
     # png_bytes = BytesIO(mermaid_png)
     # st.image(png_bytes, caption="Summarizer", use_column_width=True)
-    displayGraph(chain_agent)
-    displayGraph(chain_researcher)
+    if chain_selection == "chain_agent":
+        displayGraph(chain_agent)
+    elif chain_selection == "chain_researcher":
+        displayGraph(chain_researcher)
 
     # Get user input
     user_input = st.text_area("Enter your query:")
@@ -41,12 +46,15 @@ def main():
             uploaded_files.append(file)
 
     if st.button("Submit"):
-        # Invoke the LangGraph Workflow with user input and intermediate steps
-        result = chain_agent.invoke({"input": user_input, "intermediate_steps": []})
+        if chain_selection == "chain_agent":
+            # Invoke the LangGraph Workflow with user input and intermediate steps
+            result = chain_agent.invoke({"input": user_input, "intermediate_steps": []})
 
-        # Print the output of the LangGraph Workflow - this is the output of the Agent
-        output = result['agent_outcome'].return_values["output"]
-        st.write(output)
+            # Print the output of the LangGraph Workflow - this is the output of the Agent
+            output = result['agent_outcome'].return_values["output"]
+            st.write(output)
+        else:
+            st.write("Under development")
 
 def displayGraph(chain):
     # Display the graph visualization
