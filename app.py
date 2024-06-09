@@ -29,9 +29,9 @@ def main():
     # png_bytes = BytesIO(mermaid_png)
     # st.image(png_bytes, caption="Summarizer", use_column_width=True)
     if chain_selection == "chain_agent":
-        displayGraph(chain_agent)
+        displayGraph(chain_agent, chain_selection)
     elif chain_selection == "chain_researcher":
-        displayGraph(chain_researcher)
+        displayGraph(chain_researcher, chain_selection)
 
     # Get user input
     user_input = st.text_area("Enter your query:")
@@ -56,12 +56,12 @@ def main():
         else:
             st.write("Under development")
 
-def displayGraph(chain):
+def displayGraph(chain, chain_selection):
     # Display the graph visualization
     graph = chain.get_graph(xray=True)
     mermaid_png = graph.draw_mermaid_png()
     png_bytes = BytesIO(mermaid_png)
-    st.image(png_bytes, caption="Summarizer", use_column_width=True)
+    st.image(png_bytes, caption=chain_selection, use_column_width=True)
 
 if __name__ == "__main__":
     main()
