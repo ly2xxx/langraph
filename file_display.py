@@ -32,6 +32,12 @@ def display_csv(uploaded_files):
                     mime="text/csv",
                 )
 
+            # Add a button to copy the search results to clipboard
+            if st.button(f"Copy search results for {file.name}"):
+                csv = filtered_df.to_csv(index=False)
+                st.code(csv, language="csv")
+                st.write("Search results copied to clipboard.")
+
         except Exception as e:
             st.error(f"Error reading {file.name}: {e}")
 
