@@ -1,6 +1,7 @@
 import streamlit as st
 from langgraph_agent_example import construct_agent, create_graph_workflow
 from langgraph_researcher_example import create_researcher_graph_workflow, enter_chain
+# from langgraph_agent_news import create_newspaper_graph_workflow
 from io import BytesIO
 
 # We import the necessary functions from langgraph_agent_example.py: construct_agent and create_graph_workflow.
@@ -19,8 +20,10 @@ def main():
     # Create LangGraph Workflow with Agent as Entrypoint
     chain_agent = create_graph_workflow(agent_runnable)
     chain_researcher = create_researcher_graph_workflow()
+    # chain_socialmedia = create_newspaper_graph_workflow()
 
     # Dropdown to select chain
+    # chain_selection = st.selectbox("Select chain", ["chain_agent", "chain_researcher", "chain_socialmedia"])
     chain_selection = st.selectbox("Select chain", ["chain_agent", "chain_researcher"])
 
     # Display the graph visualization
@@ -32,6 +35,8 @@ def main():
         displayGraph(chain_agent, chain_selection)
     elif chain_selection == "chain_researcher":
         displayGraph(chain_researcher, chain_selection)
+    # elif chain_selection == "chain_socialmedia":
+    #     displayGraph(chain_researcher, chain_selection)
 
     # Get user input
     user_input = st.text_area("Enter your query:")
