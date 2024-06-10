@@ -1,0 +1,22 @@
+This CSV text contains information about a customer's financial products and details. Here's a summary:
+
+- Customer ID: 00032DAA02B6400C8EB9
+- Customer DOB: 1994-06-03
+- Gender: Female
+- Location: South Lakeland
+- Credit limit: £7,000
+- Credit score: 305
+- Declared income: £22,838.4
+- Monthly budget target: £500
+- Total monthly expenditure: £177.56 (Category 1), £106.9 (Category 2), £75.53 (Category 3)
+- Financial goal set: Reduce Overall Expenses
+
+The customer has the following active financial products:
+
+1. Rewards Credit Card (enrolled on 2020-05-23, payment status pending)
+2. Travel Insurance (enrolled on 2017-05-04, monthly fee £22.5, paid)
+3. Standard Current Account (enrolled on 2014-05-09)
+4. Saving Account (enrolled on 2013-02-27)
+5. Cash ISA (enrolled on 2016-08-08)
+
+The CSV does not contain any information about complaints, agent interactions, or product resolution details.
