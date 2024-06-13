@@ -11,3 +11,6 @@ httpx
 langchainhub
 python-dotenv
 langchain_aws
+
+openai
+langchain_openai

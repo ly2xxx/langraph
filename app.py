@@ -4,6 +4,8 @@ from langgraph_researcher_example import create_researcher_graph_workflow, enter
 # from langgraph_agent_news import create_newspaper_graph_workflow
 from io import BytesIO
 
+AGENT_RESEARCHER = "Internet Researcher"
+
 # We import the necessary functions from langgraph_agent_example.py: construct_agent and create_graph_workflow.
 # In the main function, we create a Streamlit app with a title "AWS Well-Architected Framework Assistant".
 # We create the agent and the LangGraph workflow using the construct_agent and create_graph_workflow functions, respectively.
@@ -13,6 +15,7 @@ from io import BytesIO
 # Finally, we display the output using st.write(output).
 def main():
     st.title("Multi-agent Assistant Demo")
+
 
     # Create Agent
     agent_runnable = construct_agent()
@@ -24,7 +27,8 @@ def main():
 
     # Dropdown to select chain
     # chain_selection = st.selectbox("Select chain", ["chain_agent", "chain_researcher", "chain_socialmedia"])
-    chain_selection = st.selectbox("Select chain", ["chain_agent", "chain_researcher"])
+    
+    chain_selection = st.selectbox("Select chain", ["chain_agent", AGENT_RESEARCHER])
 
     # Display the graph visualization
     # graph = chain.get_graph(xray=True)
@@ -33,7 +37,7 @@ def main():
     # st.image(png_bytes, caption="Summarizer", use_column_width=True)
     if chain_selection == "chain_agent":
         displayGraph(chain_agent, chain_selection)
-    elif chain_selection == "chain_researcher":
+    elif chain_selection == AGENT_RESEARCHER:
         displayGraph(chain_researcher, chain_selection)
     # elif chain_selection == "chain_socialmedia":
     #     displayGraph(chain_researcher, chain_selection)
@@ -58,7 +62,7 @@ def main():
             # Print the output of the LangGraph Workflow - this is the output of the Agent
             output = result['agent_outcome'].return_values["output"]
             st.write(output)
-        elif chain_selection == "chain_researcher":
+        elif chain_selection == AGENT_RESEARCHER:
             research_chain = enter_chain | chain_researcher
             for s in research_chain.stream(
                 user_input, {"recursion_limit": 100}
