@@ -1,0 +1,2 @@
+# pipenv install python-decouple==3.7
+# pipenv install openai==1.14.2 langchain==0.1.13 langchain-openai==0.1.0
