@@ -33,6 +33,9 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from langchain_openai.chat_models import ChatOpenAI
 import functools
 
+# from agents import supervisor
+
+
 def _set_if_undefined(var: str):
     if not os.environ.get(var):
         os.environ[var] = getpass.getpass(f"Please provide your {var}")
@@ -248,6 +251,8 @@ def create_researcher_graph_workflow():
         " respond with FINISH.",
         ["Search", "Web Scraper"],
     )
+
+    # supervisor_agent = supervisor.SupervisorAgent(llm)
 
     research_graph = StateGraph(ResearchTeamState)
     research_graph.add_node("Search", search_node)
