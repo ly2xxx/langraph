@@ -9,6 +9,10 @@ openai = "==1.14.2"
 langchain = "==0.1.13"
 langchain-openai = "==0.1.0"
 pydantic = "==1.10.13"
+langgraph = "==0.0.30"
+langchainhub = "==0.1.15"
+ipython = "==8.25.0"
+graphviz = "*"
 
 [dev-packages]
 
