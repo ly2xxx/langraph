@@ -107,4 +107,7 @@ def call_weather_app(query: str):
     print(f"{Fore.BLUE}Result: {result}{Style.RESET_ALL}")
     print(f"{Fore.YELLOW}Steps: {steps}{Style.RESET_ALL}")
 
-call_weather_app("What is the weather in Shanghai?")
+# call_weather_app("What is the weather in Shanghai?")
+# call_weather_app("What is the weather in New York?")
+
+call_weather_app("Give me a visual image displaying the current weather in Glasgow, UK. With the temperature figure showing at the bottom of the image")
