@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "27ca69e313cf721904cf9945f26e0a19095e14a797f66df5787ee561f7eaf1ef"
+            "sha256": "e6d80205c30565d86327498942073116274af150569e330c6baba800a3711bc9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -562,6 +562,15 @@
             "markers": "python_version < '4.0' and python_full_version >= '3.8.1'",
             "version": "==0.1.81"
         },
+        "markdown": {
+            "hashes": [
+                "sha256:48f276f4d8cfb8ce6527c8f79e2ee29708508bf4d40aa410fbc3b4ee832c850f",
+                "sha256:ed4f41f6daecbeeb96e576ce414c41d2d876daa9a16cb35fa8ed8c2ddfad0224"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==3.6"
+        },
         "marshmallow": {
             "hashes": [
                 "sha256:4f57c5e050a54d66361e826f94fba213eb10b67b2fdb02c3e0343ce207ba1662",
@@ -801,6 +810,15 @@
             "markers": "python_version >= '3.6'",
             "version": "==0.8.4"
         },
+        "pdfkit": {
+            "hashes": [
+                "sha256:992f821e1e18fc8a0e701ecae24b51a2d598296a180caee0a24c0af181da02a9",
+                "sha256:a7a4ca0d978e44fa8310c4909f087052430a6e8e0b1dd7ceef657f139789f96f",
+                "sha256:cc122e5aed594198ff7aaa566f2950d2163763576ab891c161bb1f6c630f5a8e"
+            ],
+            "index": "pypi",
+            "version": "==1.0.0"
+        },
         "prompt-toolkit": {
             "hashes": [
                 "sha256:0d7bfa67001d5e39d02c224b663abc33687405033a8c422d0d675a5a13361d10",
@@ -866,14 +884,6 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==2.18.0"
-        },
-        "pygraphviz": {
-            "hashes": [
-                "sha256:6ad8aa2f26768830a5a1cfc8a14f022d13df170a8f6fdfd68fd1aa1267000964"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.10'",
-            "version": "==1.13"
         },
         "python-decouple": {
             "hashes": [
@@ -1190,7 +1200,7 @@
                 "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d",
                 "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"
             ],
-            "markers": "python_version >= '3.8'",
+            "markers": "python_version < '3.12'",
             "version": "==4.12.2"
         },
         "typing-inspect": {

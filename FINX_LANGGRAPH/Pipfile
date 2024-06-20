@@ -13,6 +13,8 @@ langgraph = "==0.0.30"
 langchainhub = "==0.1.15"
 ipython = "==8.25.0"
 graphviz = "*"
+markdown = "==3.6"
+pdfkit = "==1.0.0"
 
 [dev-packages]
 
