@@ -5,9 +5,8 @@ from langchain import hub
 from langchain.agents import create_react_agent, tool
 from langchain.schema import AgentFinish
 from langchain.tools import tool
-from langchain_community.embeddings import BedrockEmbeddings
 # from langchain_community.llms import Bedrock
-from langchain_aws import BedrockLLM
+from langchain_aws import BedrockLLM, BedrockEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.agents import AgentFinish
 from langchain_core.runnables import RunnablePassthrough

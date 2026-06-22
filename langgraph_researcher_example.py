@@ -18,7 +18,7 @@ from typing_extensions import TypedDict
 from typing import Any, Callable, List, Optional, TypedDict, Union
 
 from langchain.agents import AgentExecutor, create_openai_functions_agent
-from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
+from langchain_core.output_parsers.openai_functions import JsonOutputFunctionsParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import Runnable
 from langchain_core.tools import BaseTool
