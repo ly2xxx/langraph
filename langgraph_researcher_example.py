@@ -45,7 +45,7 @@ dotenv.load_dotenv()
 
 os.environ.setdefault("USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 os.environ.setdefault("OPENAI_API_KEY", "sk-admin")
-os.environ.setdefault("OPENAI_BASE_URL", "http://litellm.localhost:8081/v1")
+os.environ.setdefault("OPENAI_BASE_URL", "http://localhost:8081/v1")
 
 if os.environ.get("LANGCHAIN_API_KEY"):
     os.environ.setdefault("LANGCHAIN_TRACING_V2", "true")
@@ -194,6 +194,36 @@ def agent_node(state, agent, name):
     return {"messages": [HumanMessage(content=result["output"], name=name)]}
 
 
+def parse_route_decision(message):
+    import json
+    if hasattr(message, "tool_calls") and message.tool_calls:
+        for tc in message.tool_calls:
+            args = tc.get("args", {})
+            if isinstance(args, str):
+                try:
+                    args = json.loads(args)
+                except Exception:
+                    pass
+            if isinstance(args, dict) and "next" in args:
+                return args
+    if hasattr(message, "additional_kwargs"):
+        if "function_call" in message.additional_kwargs:
+            try:
+                return json.loads(message.additional_kwargs["function_call"]["arguments"])
+            except Exception:
+                pass
+        if "tool_calls" in message.additional_kwargs:
+            for tc in message.additional_kwargs["tool_calls"]:
+                try:
+                    return json.loads(tc["function"]["arguments"])
+                except Exception:
+                    pass
+    content = getattr(message, "content", "") or ""
+    for opt in ["Search", "Web Scraper", "FINISH"]:
+        if opt.lower() in content.lower():
+            return {"next": opt}
+    return {"next": "FINISH"}
+
 def create_team_supervisor(llm: ChatOpenAI, system_prompt, members) -> str:
     """An LLM-based router."""
     options = ["FINISH"] + members
@@ -227,8 +257,8 @@ def create_team_supervisor(llm: ChatOpenAI, system_prompt, members) -> str:
     ).partial(options=str(options), team_members=", ".join(members))
     return (
         prompt
-        | llm.bind_functions(functions=[function_def], function_call="route")
-        | JsonOutputFunctionsParser()
+        | llm.bind_tools(tools=[function_def], tool_choice={"type": "function", "function": {"name": "route"}})
+        | parse_route_decision
     )
 
 # Research team graph state
@@ -243,7 +273,7 @@ class ResearchTeamState(TypedDict):
     next: str
 
 def create_researcher_graph_workflow():
-    llm = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://litellm.localhost:8081/v1", api_key="sk-admin")
+    llm = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://localhost:8081/v1", api_key="sk-admin")
 
     search_agent = create_agent(
         llm,

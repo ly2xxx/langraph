@@ -9,7 +9,7 @@ def set_environment_variables(project_name: str = "") -> None:
         project_name = f"Test_{date.today()}"
 
     os.environ["OPENAI_API_KEY"] = str(config("OPENAI_API_KEY", default="sk-admin"))
-    os.environ["OPENAI_BASE_URL"] = str(config("OPENAI_BASE_URL", default="http://litellm.localhost:8081/v1"))
+    os.environ["OPENAI_BASE_URL"] = str(config("OPENAI_BASE_URL", default="http://localhost:8081/v1"))
 
     langchain_key = str(config("LANGCHAIN_API_KEY", default=""))
     os.environ["LANGCHAIN_API_KEY"] = langchain_key

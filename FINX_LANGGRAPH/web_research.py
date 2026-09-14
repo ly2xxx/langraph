@@ -31,7 +31,7 @@ else:
     @tool("tavily_search_results_json")
     def TAVILY_TOOL(query: str) -> str:
         return f"[Simulated search: {query}]" 
-LLM = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://litellm.localhost:8081/v1", api_key="sk-admin")
+LLM = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://localhost:8081/v1", api_key="sk-admin")
 
 TAVILY_AGENT_NAME = "tavily_agent"
 RESEARCH_AGENT_NAME = "search_evaluator_agent"

@@ -59,7 +59,7 @@ class WriterAgent:
             "response_format": {"type": "json_object"}
         }
 
-        response = ChatOpenAI(model='deepseek-v4-flash:cloud', base_url='http://litellm.localhost:8081/v1', api_key='sk-admin', max_retries=1, model_kwargs=optional_params).invoke(lc_messages).content
+        response = ChatOpenAI(model='deepseek-v4-flash:cloud', base_url='http://localhost:8081/v1', api_key='sk-admin', max_retries=1, model_kwargs=optional_params).invoke(lc_messages).content
         return json.loads(response)
 
     def revise(self, article: dict):
@@ -83,7 +83,7 @@ class WriterAgent:
             "response_format": {"type": "json_object"}
         }
 
-        response = ChatOpenAI(model='deepseek-v4-flash:cloud', base_url='http://litellm.localhost:8081/v1', api_key='sk-admin', max_retries=1, model_kwargs=optional_params).invoke(lc_messages).content
+        response = ChatOpenAI(model='deepseek-v4-flash:cloud', base_url='http://localhost:8081/v1', api_key='sk-admin', max_retries=1, model_kwargs=optional_params).invoke(lc_messages).content
         response = json.loads(response)
         print(f"For article: {article['title']}")
         print(f"Writer Revision Message: {response['message']}\n")

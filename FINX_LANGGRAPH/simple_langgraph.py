@@ -20,7 +20,7 @@ import graphviz
 
 set_environment_variables("LangGraph Basics")
 
-LLM = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://litellm.localhost:8081/v1", api_key="sk-admin", streaming=True)
+LLM = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://localhost:8081/v1", api_key="sk-admin", streaming=True)
 TOOLS = [get_weather, generate_image]
 # https://smith.langchain.com/hub/hwchase17
 try:
