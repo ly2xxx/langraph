@@ -65,7 +65,34 @@ TOOLS = [well_arch_tool, embedder_tool]
 def construct_agent():
     # Get the prompt to use - you can modify this!
     # https://smith.langchain.com/hub/hwchase17
-    prompt = hub.pull("hwchase17/react")
+    try:
+        from langsmith import Client
+        client = Client()
+        prompt = client.pull_prompt("hwchase17/react", dangerously_pull_public_prompt=True)
+    except Exception:
+        from langchain_core.prompts import PromptTemplate
+        prompt = PromptTemplate(
+            input_variables=["agent_scratchpad", "input", "tool_names", "tools"],
+            template="""Answer the following questions as best you can. You have access to the following tools:
+
+{tools}
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
+
+Begin!
+
+Question: {input}
+Thought:{agent_scratchpad}""",
+        )
     # Adding a custom header
     prompt.template = """You are an expert AWS Certified Solutions Architect. Your role is to help customers understand best practices on building on AWS. You will always reference the AWS Well-Architected Framework when customers ask questions on building on AWS. """ + prompt.template 
     # print(prompt.template)

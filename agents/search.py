@@ -1,7 +1,8 @@
 from tavily import TavilyClient
 import os
 
-tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
+tavily_key = os.getenv("TAVILY_API_KEY")
+tavily_client = TavilyClient(api_key=tavily_key) if tavily_key else None
 
 
 class SearchAgent:
@@ -9,6 +10,8 @@ class SearchAgent:
         pass
 
     def search_tavily(self, query: str):
+        if not tavily_client:
+            return [{"title": "Search Fallback", "content": f"TAVILY_API_KEY not configured. Query: {query}", "url": "https://example.com"}], "https://images.unsplash.com/photo-1542281286-9e0a16bb7366"
         results = tavily_client.search(query=query, topic="news", max_results=10, include_images=True)
         sources = results["results"]
         try:

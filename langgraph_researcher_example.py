@@ -1,5 +1,9 @@
 import getpass
 import os
+import warnings
+os.environ.setdefault("USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+warnings.filterwarnings("ignore", message=".*allowed_objects.*")
+warnings.filterwarnings("ignore", message=".*TavilySearchResults.*")
 import uuid
 import dotenv
 from typing import Annotated, List, Tuple, Union
@@ -36,18 +40,31 @@ import functools
 # from agents import supervisor
 
 
-def _set_if_undefined(var: str):
-    if not os.environ.get(var):
-        os.environ[var] = getpass.getpass(f"Please provide your {var}")
-
-#load environment variables from .env file
+# load environment variables from .env file
 dotenv.load_dotenv()
 
-_set_if_undefined("OPENAI_API_KEY")
-_set_if_undefined("LANGCHAIN_API_KEY")
-_set_if_undefined("TAVILY_API_KEY")
+os.environ.setdefault("USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+os.environ.setdefault("OPENAI_API_KEY", "sk-admin")
+os.environ.setdefault("OPENAI_BASE_URL", "http://litellm.localhost:8081/v1")
 
-tavily_tool = TavilySearchResults(max_results=5)
+if os.environ.get("LANGCHAIN_API_KEY"):
+    os.environ.setdefault("LANGCHAIN_TRACING_V2", "true")
+else:
+    os.environ.setdefault("LANGCHAIN_TRACING_V2", "false")
+
+if os.environ.get("TAVILY_API_KEY"):
+    try:
+        tavily_tool = TavilySearchResults(max_results=5)
+    except Exception:
+        @tool("tavily_search_results_json")
+        def tavily_tool(query: str) -> str:
+            """A search engine optimized for comprehensive, accurate, and trusted results. Useful for when you need to answer questions about current events. Input should be a search query."""
+            return f"[Simulated search results for: '{query}']. Set TAVILY_API_KEY to enable live web search."
+else:
+    @tool("tavily_search_results_json")
+    def tavily_tool(query: str) -> str:
+        """A search engine optimized for comprehensive, accurate, and trusted results. Useful for when you need to answer questions about current events. Input should be a search query."""
+        return f"[Simulated search results for: '{query}']. Set TAVILY_API_KEY to enable live web search." 
 
 
 @tool
@@ -226,7 +243,7 @@ class ResearchTeamState(TypedDict):
     next: str
 
 def create_researcher_graph_workflow():
-    llm = ChatOpenAI(model="gpt-3.5-turbo")
+    llm = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://litellm.localhost:8081/v1", api_key="sk-admin")
 
     search_agent = create_agent(
         llm,

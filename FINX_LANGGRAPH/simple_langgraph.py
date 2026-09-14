@@ -20,10 +20,21 @@ import graphviz
 
 set_environment_variables("LangGraph Basics")
 
-LLM = ChatOpenAI(model="gpt-3.5-turbo-0125", streaming=True)
+LLM = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://litellm.localhost:8081/v1", api_key="sk-admin", streaming=True)
 TOOLS = [get_weather, generate_image]
 # https://smith.langchain.com/hub/hwchase17
-PROMPT = hub.pull("hwchase17/openai-functions-agent")
+try:
+    from langsmith import Client
+    client = Client()
+    PROMPT = client.pull_prompt("hwchase17/openai-functions-agent", dangerously_pull_public_prompt=True)
+except Exception:
+    from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+    PROMPT = ChatPromptTemplate.from_messages([
+        ("system", "You are a helpful assistant"),
+        MessagesPlaceholder(variable_name="chat_history", optional=True),
+        ("human", "{input}"),
+        MessagesPlaceholder(variable_name="agent_scratchpad"),
+    ])
 
 class AgentState(TypedDict):
     input: str

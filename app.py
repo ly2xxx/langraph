@@ -1,3 +1,8 @@
+import os
+import warnings
+os.environ.setdefault("USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+warnings.filterwarnings("ignore", message=".*allowed_objects.*")
+warnings.filterwarnings("ignore", message=".*TavilySearchResults.*")
 import streamlit as st
 from langgraph_agent_example import construct_agent, create_graph_workflow
 from langgraph_researcher_example import create_researcher_graph_workflow, enter_chain

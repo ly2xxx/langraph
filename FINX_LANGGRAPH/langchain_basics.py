@@ -21,7 +21,7 @@ french_german_prompt = ChatPromptTemplate.from_template(
 #             ("human", "{user_input}"),
 #         ])
 
-llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
+llm = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://litellm.localhost:8081/v1", api_key="sk-admin")
 output_parser = StrOutputParser()
 #'LCEL or LangChain Expression Language'
 french_german_chain = french_german_prompt | llm | output_parser

@@ -37,8 +37,20 @@ TEAM_SUPERVISOR_NAME = "team_supervisor"
 MEMBERS = [TRAVEL_AGENT_NAME, LANGUAGE_ASSISTANT_NAME, VISUALIZER_NAME]
 OPTIONS = ["FINISH"] + MEMBERS
 
-TAVILY_TOOL = TavilySearchResults()
-LLM = ChatOpenAI(model="gpt-3.5-turbo-0125")
+if os.environ.get("TAVILY_API_KEY"):
+    try:
+        TAVILY_TOOL = TavilySearchResults()
+    except Exception:
+        from langchain_core.tools import tool
+        @tool("tavily_search_results_json")
+        def TAVILY_TOOL(query: str) -> str:
+            return f"[Simulated search: {query}]"
+else:
+    from langchain_core.tools import tool
+    @tool("tavily_search_results_json")
+    def TAVILY_TOOL(query: str) -> str:
+        return f"[Simulated search: {query}]" 
+LLM = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://litellm.localhost:8081/v1", api_key="sk-admin")
 
 # We define a function named create_agent which takes an llm of the type BaseChatModel. This is just a type hint but it was part of our imports for clarity. BaseChatModel is the base class for all chat models in LangChain, including the ChatOpenAI variation we use here. You can pass any LLM you want and have different nodes of the same graph run on completely different LLMs. The other arguments are a list of tools and a system_prompt string.
 def create_agent(llm: BaseChatModel, tools: list, system_prompt: str):

@@ -18,8 +18,20 @@ from web_research_prompts import RESEARCHER_SYSTEM_PROMPT, TAVILY_AGENT_SYSTEM_P
 
 set_environment_variables("Web_Search_Graph")
 
-TAVILY_TOOL = TavilySearchResults(max_results=6)
-LLM = ChatOpenAI(model="gpt-3.5-turbo-0125")
+if os.environ.get("TAVILY_API_KEY"):
+    try:
+        TAVILY_TOOL = TavilySearchResults(max_results=6)
+    except Exception:
+        from langchain_core.tools import tool
+        @tool("tavily_search_results_json")
+        def TAVILY_TOOL(query: str) -> str:
+            return f"[Simulated search: {query}]"
+else:
+    from langchain_core.tools import tool
+    @tool("tavily_search_results_json")
+    def TAVILY_TOOL(query: str) -> str:
+        return f"[Simulated search: {query}]" 
+LLM = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://litellm.localhost:8081/v1", api_key="sk-admin")
 
 TAVILY_AGENT_NAME = "tavily_agent"
 RESEARCH_AGENT_NAME = "search_evaluator_agent"
