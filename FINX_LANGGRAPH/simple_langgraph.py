@@ -1,3 +1,4 @@
+import os
 import operator
 from typing import Annotated, TypedDict, Union
 
@@ -20,7 +21,7 @@ import graphviz
 
 set_environment_variables("LangGraph Basics")
 
-LLM = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://localhost:8081/v1", api_key="sk-admin", streaming=True)
+LLM = ChatOpenAI(model=os.getenv('OPENAI_MODEL', 'deepseek-v4-flash:cloud'), base_url=os.getenv('OPENAI_BASE_URL', 'http://localhost:8081/v1').replace('litellm.localhost', 'localhost').rstrip('/') + ('/v1' if not os.getenv('OPENAI_BASE_URL', '').endswith('/v1') else ''), api_key=os.getenv('OPENAI_API_KEY', 'sk-admin'), streaming=True)
 TOOLS = [get_weather, generate_image]
 # https://smith.langchain.com/hub/hwchase17
 try:

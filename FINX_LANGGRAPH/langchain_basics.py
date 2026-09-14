@@ -1,3 +1,4 @@
+import os
 from langchain_core.output_parsers import StrOutputParser #response.choices[0].message.content
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
@@ -21,7 +22,7 @@ french_german_prompt = ChatPromptTemplate.from_template(
 #             ("human", "{user_input}"),
 #         ])
 
-llm = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://localhost:8081/v1", api_key="sk-admin")
+llm = ChatOpenAI(model=os.getenv('OPENAI_MODEL', 'deepseek-v4-flash:cloud'), base_url=os.getenv('OPENAI_BASE_URL', 'http://localhost:8081/v1').replace('litellm.localhost', 'localhost').rstrip('/') + ('/v1' if not os.getenv('OPENAI_BASE_URL', '').endswith('/v1') else ''), api_key=os.getenv('OPENAI_API_KEY', 'sk-admin'))
 output_parser = StrOutputParser()
 #'LCEL or LangChain Expression Language'
 french_german_chain = french_german_prompt | llm | output_parser

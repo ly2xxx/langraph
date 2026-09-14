@@ -1,3 +1,6 @@
+import os
+import dotenv
+dotenv.load_dotenv(override=True)
 from datetime import datetime
 from langchain_community.adapters.openai import convert_openai_messages
 from langchain_openai import ChatOpenAI
@@ -24,7 +27,7 @@ class CritiqueAgent:
         }]
 
         lc_messages = convert_openai_messages(prompt)
-        response = ChatOpenAI(model='deepseek-v4-flash:cloud', base_url='http://localhost:8081/v1', api_key='sk-admin', max_retries=1).invoke(lc_messages).content
+        response = ChatOpenAI(model=os.getenv('OPENAI_MODEL', 'deepseek-v4-flash:cloud'), base_url=os.getenv('OPENAI_BASE_URL', 'http://localhost:8081/v1').replace('litellm.localhost', 'localhost').rstrip('/') + ('/v1' if not os.getenv('OPENAI_BASE_URL', '').endswith('/v1') else ''), api_key=os.getenv('OPENAI_API_KEY', 'sk-admin'), max_retries=1).invoke(lc_messages).content
         if response == 'None':
             return {'critique': None}
         else:

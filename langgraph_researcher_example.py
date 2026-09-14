@@ -41,7 +41,7 @@ import functools
 
 
 # load environment variables from .env file
-dotenv.load_dotenv()
+dotenv.load_dotenv(override=True)
 
 os.environ.setdefault("USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 os.environ.setdefault("OPENAI_API_KEY", "sk-admin")
@@ -273,7 +273,12 @@ class ResearchTeamState(TypedDict):
     next: str
 
 def create_researcher_graph_workflow():
-    llm = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://localhost:8081/v1", api_key="sk-admin")
+    _base_url = os.getenv("OPENAI_BASE_URL", "http://localhost:8081/v1").replace("litellm.localhost", "localhost")
+    if not _base_url.endswith("/v1"):
+        _base_url = _base_url.rstrip("/") + "/v1"
+    _model = os.getenv("OPENAI_MODEL", "deepseek-v4-flash:cloud")
+    _api_key = os.getenv("OPENAI_API_KEY", "sk-admin")
+    llm = ChatOpenAI(model=_model, base_url=_base_url, api_key=_api_key)
 
     search_agent = create_agent(
         llm,

@@ -1,3 +1,4 @@
+import os
 import asyncio
 import functools
 import operator
@@ -31,7 +32,7 @@ else:
     @tool("tavily_search_results_json")
     def TAVILY_TOOL(query: str) -> str:
         return f"[Simulated search: {query}]" 
-LLM = ChatOpenAI(model="deepseek-v4-flash:cloud", base_url="http://localhost:8081/v1", api_key="sk-admin")
+LLM = ChatOpenAI(model=os.getenv('OPENAI_MODEL', 'deepseek-v4-flash:cloud'), base_url=os.getenv('OPENAI_BASE_URL', 'http://localhost:8081/v1').replace('litellm.localhost', 'localhost').rstrip('/') + ('/v1' if not os.getenv('OPENAI_BASE_URL', '').endswith('/v1') else ''), api_key=os.getenv('OPENAI_API_KEY', 'sk-admin'))
 
 TAVILY_AGENT_NAME = "tavily_agent"
 RESEARCH_AGENT_NAME = "search_evaluator_agent"
